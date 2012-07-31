@@ -1,0 +1,13 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("vector", "for vector support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("vector", "enable vector support", "no");
+
+if (PHP_VECTOR != "no") {
+	EXTENSION("vector", "vector.c");
+}
+
