@@ -26,6 +26,8 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_vector.h"
+#include "vector_types.h"
+#include "vector_math.h"
 
 /* If you declare any globals in php_vector.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(vector)
@@ -39,7 +41,7 @@ static int le_vector;
  * Every user visible function must have an entry in vector_functions[].
  */
 const zend_function_entry vector_functions[] = {
-	PHP_FE(confirm_vector_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE(vector_pi,	NULL)		/* For testing, remove later. */
 	PHP_FE_END	/* Must be the last line in vector_functions[] */
 };
 /* }}} */
@@ -151,18 +153,25 @@ PHP_MINFO_FUNCTION(vector)
 /* Every user-visible function in PHP should document itself in the source */
 /* {{{ proto string confirm_vector_compiled(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_vector_compiled)
+PHP_FUNCTION(vector_pi)
 {
-	char *arg = NULL;
-	int arg_len, len;
-	char *strg;
+	zval 				*number;
+	//int arg_len, len;
+	//char *strg;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &number) == FAILURE) {
 		return;
 	}
 
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "vector", arg);
-	RETURN_STRINGL(strg, len, 0);
+	if (!number || Z_TYPE_P(number) != IS_DOUBLE || !Z_DVAL_P(number)) {
+		efree(number);
+		RETURN_DOUBLE(0);
+	} else {
+		RETURN_DOUBLE(radToDeg(Z_DVAL_P(number)));
+	}
+
+	//len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "vector", arg);
+	//RETURN_STRINGL(strg, len, 0);
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 

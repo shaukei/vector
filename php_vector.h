@@ -42,7 +42,7 @@ PHP_RINIT_FUNCTION(vector);
 PHP_RSHUTDOWN_FUNCTION(vector);
 PHP_MINFO_FUNCTION(vector);
 
-PHP_FUNCTION(confirm_vector_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(vector_pi);	/* For testing, remove later. */
 
 /* 
   	Declare any global variables you may need between the BEGIN
